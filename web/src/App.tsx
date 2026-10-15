@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { initApp } from '@freeappstore/sdk'
 import { BuildInfo, type NavItem, PageHeader, Shell } from '@freeappstore/sdk/ui'
+import Qibla from './Qibla'
 import Settings from './Settings'
 import Today from './Today'
 import Week from './Week'
@@ -15,6 +16,7 @@ const fas = initApp({ appId: 'prayercompass' })
 const NAV: NavItem[] = [
   { label: 'Today', href: '/', title: 'PrayerCompass' },
   { label: 'Week', href: '/week', title: 'This week — PrayerCompass' },
+  { label: 'Qibla', href: '/qibla', title: 'Qibla — PrayerCompass' },
   { label: 'Settings', href: '/settings', title: 'Settings — PrayerCompass' },
   { label: 'About', href: '/about', title: 'About — PrayerCompass' },
 ]
@@ -61,6 +63,8 @@ export default function App() {
             settings={settings}
             onSettingsChange={changeSettings}
           />
+        ) : path === '/qibla' ? (
+          <Qibla location={location} onOpenSettings={() => navigate('/settings')} />
         ) : path === '/week' ? (
           <Week
             location={location}
@@ -89,7 +93,8 @@ function About() {
       <p className="text-[var(--muted)]">
         PrayerCompass shows the daily prayer times, a countdown to the next prayer and the week ahead
         for where you are. Everything is calculated on your device, so it works offline and your
-        location is never sent anywhere. No account, no ads. The Qibla direction is coming soon.
+        location is never sent anywhere. No account, no ads. The Qibla direction is the great-circle
+        bearing to the Kaaba from true north, also calculated on your device.
       </p>
       <p className="mt-4 text-[var(--muted)]">
         The Hijri date is an estimate from the Umm al-Qura calendar; the start of each month depends on
