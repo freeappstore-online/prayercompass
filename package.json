@@ -1,10 +1,20 @@
 {
   "name": "prayercompass",
+  "description": "Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it.",
   "private": true,
   "packageManager": "pnpm@10.30.3",
-  "engines": { "node": ">=22" },
-  "pnpm": { "onlyBuiltDependencies": ["esbuild"] },
-  "repository": { "type": "git", "url": "git+https://github.com/freeappstore-online/prayercompass.git" },
+  "engines": {
+    "node": ">=22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freeappstore-online/prayercompass.git"
+  },
   "scripts": {
     "dev": "pnpm --filter @prayercompass/web dev",
     "build": "pnpm --filter @prayercompass/web build",

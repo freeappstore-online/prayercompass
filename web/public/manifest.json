@@ -1,14 +1,25 @@
 {
-  "name": "prayercompass",
-  "short_name": "prayercompass",
-  "description": "Free prayercompass app — part of FreeAppStore",
+  "name": "PrayerCompass",
+  "short_name": "PrayerCompass",
+  "description": "Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",
+  "min_viewport_width": 320,
   "background_color": "#ffffff",
   "theme_color": "#111111",
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

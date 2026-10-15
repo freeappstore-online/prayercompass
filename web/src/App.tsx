@@ -5,11 +5,21 @@ import { BuildInfo, type NavItem, PageHeader, Shell } from '@freeappstore/sdk/ui
 const fas = initApp({ appId: 'prayercompass' })
 
 // The app's screens. Shell renders them as its navbar (<nav aria-label="Main">,
-// current screen highlighted, a menu on phones). Add one entry per screen;
-// `title` becomes the browser tab title on that route.
+// current screen highlighted, a menu on phones). `title` becomes the browser
+// tab title on that route.
 const NAV: NavItem[] = [
-  { label: 'Home', href: '/', title: 'prayercompass' },
-  { label: 'About', href: '/about', title: 'About — prayercompass' },
+  { label: 'Today', href: '/', title: 'PrayerCompass' },
+  { label: 'About', href: '/about', title: 'About — PrayerCompass' },
+]
+
+// The features planned for v1 (freeappstore-online/platform#221).
+const FEATURES = [
+  { name: 'Prayer times', what: "Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha for today, and the week ahead." },
+  { name: 'Countdown', what: 'A live countdown to the next prayer.' },
+  { name: 'Your method', what: 'Choose the calculation method, Asr school and high-latitude rule.' },
+  { name: 'Qibla', what: 'The direction of the Kaaba from where you are, in degrees from true north.' },
+  { name: 'Hijri date', what: "Today's Hijri date, shown as an estimate." },
+  { name: 'Private', what: 'Times are calculated on your device. Your location never leaves it.' },
 ]
 
 export default function App() {
@@ -30,26 +40,59 @@ export default function App() {
   }
 
   return (
-    <Shell app={fas} appName="prayercompass" nav={NAV} onNavigate={navigate}>
-      <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
-        {path === '/about' ? <About /> : <Home />}
-      </div>
+    <Shell app={fas} appName="PrayerCompass" nav={NAV} onNavigate={navigate}>
+      <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">{path === '/about' ? <About /> : <Today />}</div>
       <BuildInfo />
     </Shell>
   )
 }
 
-function Home() {
-  return <PageHeader title="prayercompass" description="Edit web/src/App.tsx to start building." />
+function Today() {
+  return (
+    <>
+      <PageHeader
+        title="PrayerCompass"
+        description="Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it."
+      />
+      <ComingSoon />
+      <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        {FEATURES.map((feature) => (
+          <li key={feature.name} className="rounded-[var(--radius)] border border-[var(--line)] p-4">
+            <p className="font-semibold text-[var(--ink)]">{feature.name}</p>
+            <p className="text-sm text-[var(--muted)]">{feature.what}</p>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
 }
 
 function About() {
   return (
     <>
       <PageHeader title="About" />
-      <p className="text-[var(--muted)]">
-        prayercompass is a free app on <a href="https://freeappstore.online" className="underline">FreeAppStore</a>.
+      <ComingSoon />
+      <p className="mt-4 text-[var(--muted)]">
+        PrayerCompass will show the daily prayer times and the Qibla direction for where you are.
+        Everything will be calculated on your device, so it works offline and your location is never
+        sent anywhere. No account, no ads.
+      </p>
+      <p className="mt-4 text-[var(--muted)]">
+        PrayerCompass is a free, MIT-licensed app on{' '}
+        <a href="https://freeappstore.online" className="underline">
+          FreeAppStore
+        </a>
+        .
       </p>
     </>
+  )
+}
+
+// Placeholder until the features are built. None of them work yet, so it says so plainly.
+function ComingSoon() {
+  return (
+    <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
+      Coming soon. PrayerCompass is in development; the features below aren't available yet.
+    </p>
   )
 }
