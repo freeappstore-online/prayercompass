@@ -1,7 +1,7 @@
 {
   "name": "PrayerCompass",
   "short_name": "PrayerCompass",
-  "description": "Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it.",
+  "description": "Private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",

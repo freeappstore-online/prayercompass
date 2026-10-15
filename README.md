@@ -1,12 +1,17 @@
 # PrayerCompass
 
-**Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device,
+**Private, ad-free prayer times and Qibla direction: calculated on your device,
 location never leaves it.** A free app on [FreeAppStore](https://freeappstore.online), live at
 https://prayercompass.freeappstore.online.
 
-Right now this is a shell: it lists the planned features, but none of them work yet. Progress is
-tracked in
-[freeappstore-online/platform#221](https://github.com/freeappstore-online/platform/issues/221).
+- **Prayer times** for today (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) with a live countdown to the
+  next prayer, and the week ahead. Calculated with [adhan-js](https://github.com/batoulapps/adhan-js)
+  (MIT): 8 calculation methods, Shafi'i or Hanafi Asr, a high-latitude rule and per-prayer adjustments.
+- **Qibla**: the great-circle bearing to the Kaaba from true north, as a static arrow.
+- **Hijri date** (Umm al-Qura), shown as an estimate.
+- **Location** from your device, a built-in list of 240+ cities, or typed coordinates. Stored only in
+  this browser; no geocoding service.
+- Works offline, light and dark themes, no account, no ads.
 
 ## Develop
 
@@ -14,11 +19,14 @@ tracked in
 pnpm install
 pnpm dev      # local dev server
 pnpm build    # production build in web/dist
+pnpm test     # unit tests (vitest)
+pnpm e2e      # end-to-end tests (Playwright; builds first)
 fas check     # FreeAppStore compliance checks
+fas screencheck  # layout at every reference viewport
 ```
 
 Pushes to `main` auto-deploy via GitHub Actions.
 
 ## License
 
-MIT.
+MIT. Third-party licences are in [LICENCES](LICENCES).

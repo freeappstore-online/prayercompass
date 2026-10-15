@@ -1,6 +1,6 @@
 {
   "name": "prayercompass",
-  "description": "Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it.",
+  "description": "A free, private, ad-free prayer times app with Qibla compass. Works offline, no account needed.",
   "private": true,
   "packageManager": "pnpm@10.30.3",
   "engines": {
