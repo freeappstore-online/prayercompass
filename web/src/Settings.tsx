@@ -157,7 +157,7 @@ function CitySearch({ onPick }: { onPick: (city: City) => void }) {
               <li key={`${city.name}|${city.country}`}>
                 <button
                   type="button"
-                  className="w-full py-2 text-left hover:bg-[var(--paper-deep)]"
+                  className="w-full py-2 text-start hover:bg-[var(--paper-deep)]"
                   onClick={() => {
                     onPick(city)
                     setQuery('')
@@ -252,9 +252,9 @@ function CalculationSection({ settings, onChange }: { settings: SettingsValue; o
       </div>
 
       <fieldset className={`${card} mt-3`}>
-        <legend className="float-left w-full font-semibold text-[var(--ink)]">Asr calculation</legend>
+        <legend className="float-start w-full font-semibold text-[var(--ink)]">Asr calculation</legend>
         {MADHABS.map((m) => (
-          <label key={m.id} className="clear-left flex items-start gap-2 pt-2">
+          <label key={m.id} className="clear-start flex items-start gap-2 pt-2">
             <input
               type="radio"
               name="madhab"
@@ -290,8 +290,8 @@ function CalculationSection({ settings, onChange }: { settings: SettingsValue; o
       </div>
 
       <fieldset className={`${card} mt-3`}>
-        <legend className="float-left w-full font-semibold text-[var(--ink)]">Adjustments (minutes)</legend>
-        <p className="clear-left pt-1 text-sm text-[var(--muted)]">
+        <legend className="float-start w-full font-semibold text-[var(--ink)]">Adjustments (minutes)</legend>
+        <p className="clear-start pt-1 text-sm text-[var(--muted)]">
           Shift a time to match your local mosque, from -{MAX_ADJUSTMENT} to +{MAX_ADJUSTMENT} minutes.
         </p>
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">

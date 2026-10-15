@@ -48,7 +48,7 @@ export function NoLocation({ onOpenSettings }: { onOpenSettings: () => void }) {
       </p>
       <button
         type="button"
-        className="mt-3 rounded-[var(--radius)] bg-[var(--accent-deep)] px-4 py-2 font-semibold text-white"
+        className="mt-3 rounded-[var(--radius)] bg-[var(--accent-deep)] px-4 py-2 font-semibold text-[var(--paper)]"
         onClick={onOpenSettings}
       >
         Set location

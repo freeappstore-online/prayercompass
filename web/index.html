@@ -18,6 +18,7 @@
       var d = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
       if (d) document.documentElement.dataset.theme = 'dark';
       document.documentElement.style.background = d ? '#000000' : '#ffffff';
+      document.getElementById('theme-color').setAttribute('content', d ? '#000000' : '#ffffff');
     </script>
     <title>PrayerCompass — FreeAppStore</title>
     <meta name="description" content="Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it." />

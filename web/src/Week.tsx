@@ -67,7 +67,7 @@ export default function Week({ location, settings, onOpenSettings, onOpenToday }
       )}
       <p className="mt-4 text-sm">
         <button type="button" className="underline" onClick={onOpenToday}>
-          ← Back to today
+          <span aria-hidden="true" className="inline-block rtl:rotate-180">←</span> Back to today
         </button>
       </p>
     </>
