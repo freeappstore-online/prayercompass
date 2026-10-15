@@ -247,6 +247,8 @@ summary:focus-visible,
 header button[style*='--accent'] {
   background: var(--accent-deep) !important;
   color: var(--paper) !important;
+  /* Keep "Sign in" on one line; it wraps at phone widths otherwise. */
+  white-space: nowrap;
 }
 
 /* App frame: fills the screen exactly. The header stays put, each screen
@@ -292,6 +294,5 @@ main.fas-main {
   div:has(> main.fas-main) > header button[style*='--accent'] {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
-    white-space: nowrap;
   }
 }

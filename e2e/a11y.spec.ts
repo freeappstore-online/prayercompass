@@ -85,6 +85,9 @@ test('in a right-to-left page, layout mirrors and nothing overflows', async ({ p
       const arabic = page.locator('[lang="ar"]')
       expect(await arabic.count()).toBeGreaterThanOrEqual(6)
       for (const dir of await arabic.evaluateAll((els) => els.map((e) => e.getAttribute('dir')))) expect(dir).toBe('auto')
+      // Times keep their left-to-right order ("5:33 AM", not "AM 5:33").
+      const times = page.locator('span[dir="ltr"]').filter({ hasText: /\d:\d\d/ })
+      expect(await times.count()).toBeGreaterThanOrEqual(6)
     }
   }
 })

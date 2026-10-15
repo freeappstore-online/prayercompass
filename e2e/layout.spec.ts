@@ -6,6 +6,8 @@ import { expect, open, test, withLocation } from './fixtures'
 
 for (const viewport of [
   { width: 320, height: 568 },
+  { width: 375, height: 667 },
+  { width: 390, height: 844 },
   { width: 568, height: 320 },
 ]) {
   test.describe(`${viewport.width}×${viewport.height}`, () => {
@@ -20,8 +22,10 @@ for (const viewport of [
         }))
         expect(size.width).toBeLessThanOrEqual(viewport.width)
         expect(size.height).toBeLessThanOrEqual(viewport.height)
-        // Sign in stays on screen.
-        await expect(page.getByRole('button', { name: 'Sign in' })).toBeInViewport({ ratio: 1 })
+        // Sign in stays on screen, on one line.
+        const signIn = page.getByRole('button', { name: 'Sign in' })
+        await expect(signIn).toBeInViewport({ ratio: 1 })
+        expect((await signIn.boundingBox())!.height).toBeLessThan(48)
         // The end of the screen is still reachable by scrolling its frame.
         const frame = page.locator('.pc-page')
         await frame.evaluate((el) => el.scrollTo({ top: el.scrollHeight }))

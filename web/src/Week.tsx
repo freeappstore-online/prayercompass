@@ -56,7 +56,7 @@ export default function Week({ location, settings, onOpenSettings, onOpenToday }
                   </th>
                   {PRAYER_ORDER.map((name) => (
                     <td key={name} className={`whitespace-nowrap px-3 py-2 ${name === 'sunrise' ? 'text-[var(--muted)]' : ''}`}>
-                      {formatTime(day.times[name])}
+                      <span dir="ltr">{formatTime(day.times[name])}</span>
                     </td>
                   ))}
                 </tr>

@@ -127,7 +127,9 @@ function TodayTimes({ days, now }: { days: ReturnType<typeof weekPrayers>; now: 
           <p className="sr-only">
             Next: {PRAYER_LABELS[next.name]} at {formatTime(next.time)}
           </p>
-          <p className="mt-1 text-sm text-[var(--muted)]">at {formatTime(next.time)}</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">
+            at <span dir="ltr">{formatTime(next.time)}</span>
+          </p>
         </div>
       )}
       <ol className="mt-4 divide-y divide-[var(--line)] rounded-[var(--radius)] border border-[var(--line)]">
@@ -148,7 +150,10 @@ function TodayTimes({ days, now }: { days: ReturnType<typeof weekPrayers>; now: 
                 </span>
                 {isCurrent && <span className="text-sm font-semibold text-[var(--accent-deep)]">Now</span>}
               </span>
-              <span className="text-2xl tabular-nums sm:text-3xl">{formatTime(today.times[name])}</span>
+              {/* dir="ltr" keeps "5:33 AM" in order inside a right-to-left page. */}
+              <span dir="ltr" className="text-2xl tabular-nums sm:text-3xl">
+                {formatTime(today.times[name])}
+              </span>
             </li>
           )
         })}
