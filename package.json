@@ -20,6 +20,6 @@
     "build": "pnpm --filter @prayercompass/web build",
     "preview": "pnpm --filter @prayercompass/web preview",
     "typecheck": "pnpm --filter @prayercompass/web exec tsc -b",
-    "test": "pnpm --filter @prayercompass/web exec tsc -b"
+    "test": "pnpm --filter @prayercompass/web test"
   }
 }

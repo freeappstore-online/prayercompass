@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { initApp } from '@freeappstore/sdk'
 import { BuildInfo, type NavItem, PageHeader, Shell } from '@freeappstore/sdk/ui'
+import Settings from './Settings'
+import { clearLocation, loadLocation, saveLocation, type SavedLocation } from './lib/location'
+import { METHODS, loadSettings, saveSettings, type Settings as SettingsValue } from './lib/settings'
 
 const fas = initApp({ appId: 'prayercompass' })
 
@@ -9,6 +12,7 @@ const fas = initApp({ appId: 'prayercompass' })
 // tab title on that route.
 const NAV: NavItem[] = [
   { label: 'Today', href: '/', title: 'PrayerCompass' },
+  { label: 'Settings', href: '/settings', title: 'Settings — PrayerCompass' },
   { label: 'About', href: '/about', title: 'About — PrayerCompass' },
 ]
 
@@ -24,6 +28,19 @@ const FEATURES = [
 
 export default function App() {
   const [path, setPath] = useState(() => window.location.pathname)
+  // Location and settings live in localStorage only; nothing is sent anywhere.
+  const [location, setLocation] = useState<SavedLocation | null>(() => loadLocation())
+  const [settings, setSettings] = useState<SettingsValue>(() => loadSettings())
+
+  const changeLocation = (next: SavedLocation | null) => {
+    if (next) saveLocation(next)
+    else clearLocation()
+    setLocation(next)
+  }
+  const changeSettings = (next: SettingsValue) => {
+    saveSettings(next)
+    setSettings(next)
+  }
 
   // Keep the screen in step with the browser's back and forward buttons.
   useEffect(() => {
@@ -41,13 +58,35 @@ export default function App() {
 
   return (
     <Shell app={fas} appName="PrayerCompass" nav={NAV} onNavigate={navigate}>
-      <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">{path === '/about' ? <About /> : <Today />}</div>
+      <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
+        {path === '/about' ? (
+          <About />
+        ) : path === '/settings' ? (
+          <Settings
+            location={location}
+            onLocationChange={changeLocation}
+            settings={settings}
+            onSettingsChange={changeSettings}
+          />
+        ) : (
+          <Today location={location} settings={settings} onOpenSettings={() => navigate('/settings')} />
+        )}
+      </div>
       <BuildInfo />
     </Shell>
   )
 }
 
-function Today() {
+function Today({
+  location,
+  settings,
+  onOpenSettings,
+}: {
+  location: SavedLocation | null
+  settings: SettingsValue
+  onOpenSettings: () => void
+}) {
+  const method = METHODS.find((m) => m.id === settings.method)
   return (
     <>
       <PageHeader
@@ -55,6 +94,16 @@ function Today() {
         description="Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it."
       />
       <ComingSoon />
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius)] border border-[var(--line)] p-4">
+        <div>
+          <p className="text-sm text-[var(--muted)]">Location</p>
+          <p className="font-semibold text-[var(--ink)]">{location ? location.label : 'Not set'}</p>
+          <p className="text-sm text-[var(--muted)]">{method?.label}</p>
+        </div>
+        <button type="button" className="underline" onClick={onOpenSettings}>
+          {location ? 'Change' : 'Set location'}
+        </button>
+      </div>
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {FEATURES.map((feature) => (
           <li key={feature.name} className="rounded-[var(--radius)] border border-[var(--line)] p-4">
@@ -92,7 +141,7 @@ function About() {
 function ComingSoon() {
   return (
     <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
-      Coming soon. PrayerCompass is in development; the features below aren't available yet.
+      Coming soon. PrayerCompass is in development; you can set your location and calculation method now, and prayer times and the Qibla are on the way.
     </p>
   )
 }
