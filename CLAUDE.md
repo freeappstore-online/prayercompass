@@ -9,8 +9,9 @@ Third-party licences are recorded in `LICENCES`.
 - Live: https://prayercompass.freeappstore.online
 - Dev: `pnpm install && pnpm dev`
 - Build: `pnpm build`
-- Test: `pnpm test` (vitest)
-- Check: `fas check`
+- Test: `pnpm test` (vitest); e2e: `pnpm e2e` (Playwright, builds first)
+- Check: `fas check` and `fas screencheck` (on Windows: `pnpm build` then `fas screencheck --skip-build`;
+  the page never scrolls, each screen scrolls inside `.pc-page`)
 - Deploy: `git push origin main` (auto-deploys to R2 via GitHub Actions)
 
 ## Notes

@@ -248,3 +248,50 @@ header button[style*='--accent'] {
   background: var(--accent-deep) !important;
   color: var(--paper) !important;
 }
+
+/* App frame: fills the screen exactly. The header stays put, each screen
+   scrolls inside .pc-page, and the page itself never scrolls (fas
+   screencheck checks this down to 320px wide and 320px tall). */
+div:has(> main.fas-main) {
+  height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  min-height: 0 !important;
+}
+
+main.fas-main {
+  min-height: 0;
+}
+
+.pc-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* In the installed app the platform footer is pinned to the bottom. */
+@media (display-mode: standalone) {
+  .pc-page {
+    padding-bottom: 2.25rem;
+  }
+}
+
+/* "PrayerCompass" is a long name for the SDK Shell's topbar, which is ~50px
+   too wide at 320px and ~10px at 360px. Tighten its spacing on narrow phones
+   so Sign in stays on screen. */
+@media (max-width: 379px) {
+  div:has(> main.fas-main) > header {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  div:has(> main.fas-main) > header > div {
+    gap: 0.25rem !important;
+  }
+  div:has(> main.fas-main) > header > div:first-child > span {
+    font-size: 0.75rem !important;
+  }
+  div:has(> main.fas-main) > header button[style*='--accent'] {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    white-space: nowrap;
+  }
+}

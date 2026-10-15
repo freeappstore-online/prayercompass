@@ -112,6 +112,105 @@ describe('reference timetables', () => {
   }
 })
 
+// Reference values from adhan-js's own test suite (test/adhan.test.ts),
+// several taken from moonsighting.com. They cover both Asr schools, more
+// methods, and all three high-latitude rules, through our settings mapping.
+interface Case {
+  name: string
+  position: Position
+  timeZone: string
+  date: string
+  settings: Partial<Settings>
+  times: Partial<Record<PrayerName, string>>
+}
+
+const RALEIGH: Position = { latitude: 35.775, longitude: -78.6336 }
+const EDINBURGH: Position = { latitude: 55.983226, longitude: -3.216649 }
+
+const CASES: Case[] = [
+  {
+    name: 'Raleigh, ISNA, Hanafi',
+    position: RALEIGH,
+    timeZone: 'America/New_York',
+    date: '2015-07-12',
+    settings: { method: 'NorthAmerica', madhab: 'hanafi' },
+    times: { fajr: '4:42 AM', sunrise: '6:08 AM', dhuhr: '1:21 PM', asr: '6:22 PM', maghrib: '8:32 PM', isha: '9:57 PM' },
+  },
+  {
+    name: "Raleigh, MWL, Shafi'i Asr",
+    position: RALEIGH,
+    timeZone: 'America/New_York',
+    date: '2015-12-01',
+    settings: { method: 'MuslimWorldLeague', madhab: 'shafi' },
+    times: { fajr: '5:35 AM', sunrise: '7:06 AM', dhuhr: '12:05 PM', asr: '2:42 PM', maghrib: '5:01 PM' },
+  },
+  {
+    name: 'Raleigh, MWL, Hanafi Asr',
+    position: RALEIGH,
+    timeZone: 'America/New_York',
+    date: '2015-12-01',
+    settings: { method: 'MuslimWorldLeague', madhab: 'hanafi' },
+    times: { asr: '3:22 PM' },
+  },
+  {
+    name: 'Raleigh, Moonsighting Committee (moonsighting.com)',
+    position: RALEIGH,
+    timeZone: 'America/New_York',
+    date: '2016-01-31',
+    settings: { method: 'MoonsightingCommittee' },
+    times: { fajr: '5:48 AM', sunrise: '7:16 AM', dhuhr: '12:33 PM', asr: '3:20 PM', maghrib: '5:43 PM', isha: '7:05 PM' },
+  },
+  {
+    name: 'Oslo, Moonsighting Committee, Hanafi, high latitude (moonsighting.com)',
+    position: { latitude: 59.9094, longitude: 10.7349 },
+    timeZone: 'Europe/Oslo',
+    date: '2016-01-01',
+    settings: { method: 'MoonsightingCommittee', madhab: 'hanafi' },
+    times: { fajr: '7:34 AM', sunrise: '9:19 AM', dhuhr: '12:25 PM', asr: '1:36 PM', maghrib: '3:25 PM', isha: '5:02 PM' },
+  },
+  {
+    name: 'Cairo, Egyptian',
+    position: { latitude: 30.028703, longitude: 31.249528 },
+    timeZone: 'Africa/Cairo',
+    date: '2020-01-01',
+    settings: { method: 'Egyptian' },
+    times: { fajr: '5:18 AM', sunrise: '6:51 AM', dhuhr: '11:59 AM', asr: '2:47 PM', maghrib: '5:06 PM', isha: '6:29 PM' },
+  },
+  {
+    name: 'Edinburgh, MWL, middle of the night',
+    position: EDINBURGH,
+    timeZone: 'Europe/London',
+    date: '2020-06-15',
+    settings: { method: 'MuslimWorldLeague', highLatitudeRule: 'middleofthenight' },
+    times: { fajr: '1:14 AM', sunrise: '4:26 AM', dhuhr: '1:14 PM', asr: '5:46 PM', maghrib: '10:01 PM', isha: '1:14 AM' },
+  },
+  {
+    name: 'Edinburgh, MWL, seventh of the night',
+    position: EDINBURGH,
+    timeZone: 'Europe/London',
+    date: '2020-06-15',
+    settings: { method: 'MuslimWorldLeague', highLatitudeRule: 'seventhofthenight' },
+    times: { fajr: '3:31 AM', sunrise: '4:26 AM', dhuhr: '1:14 PM', asr: '5:46 PM', maghrib: '10:01 PM', isha: '10:56 PM' },
+  },
+  {
+    name: 'Edinburgh, MWL, twilight angle',
+    position: EDINBURGH,
+    timeZone: 'Europe/London',
+    date: '2020-06-15',
+    settings: { method: 'MuslimWorldLeague', highLatitudeRule: 'twilightangle' },
+    times: { fajr: '2:31 AM', sunrise: '4:26 AM', dhuhr: '1:14 PM', asr: '5:46 PM', maghrib: '10:01 PM', isha: '11:50 PM' },
+  },
+]
+
+describe('adhan-js reference cases (Asr schools, methods, high-latitude rules)', () => {
+  it.each(CASES)('$name, $date', ({ position, timeZone, date, settings: overrides, times }) => {
+    const day = prayerTimes(position, settings(overrides), localDate(date))
+    for (const [name, expected] of Object.entries(times) as [PrayerName, string][]) {
+      expect(wallClock(day.times[name], timeZone), `${name}: expected ${expected}`).toBe(parseClock(expected))
+    }
+  })
+})
+
 const NEW_YORK: Position = { latitude: 40.7128, longitude: -74.006 }
 const TROMSO: Position = { latitude: 69.65, longitude: 18.96 }
 

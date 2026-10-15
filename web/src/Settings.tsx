@@ -121,7 +121,8 @@ function LocationSection({ location, onChange }: { location: SavedLocation | nul
       <p className="mt-3 text-sm text-[var(--muted)]">
         <strong className="text-[var(--ink)]">Privacy:</strong> your location is stored only in this browser (localStorage) and
         never leaves your device. City search uses a list built into the app, so nothing you type is sent anywhere. Prayer
-        times and the Qibla are calculated on your device.
+        times and the Qibla are calculated on your device. The full privacy note, including page-view counts, is on
+        the About screen.
       </p>
     </Section>
   )

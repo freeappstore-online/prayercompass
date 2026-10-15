@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { initApp } from '@freeappstore/sdk'
 import { BuildInfo, type NavItem, PageHeader, Shell } from '@freeappstore/sdk/ui'
+import { PrivacyNote } from './Privacy'
 import Qibla from './Qibla'
 import Settings from './Settings'
 import Today from './Today'
@@ -44,6 +45,12 @@ export default function App() {
     return () => window.removeEventListener('popstate', sync)
   }, [])
 
+  // Screens scroll inside .pc-page, not the page, so start each one at the top.
+  const pageRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    pageRef.current?.scrollTo({ top: 0 })
+  }, [path])
+
   // Nav clicks switch screens without a page load. Shell scrolls to the top
   // and moves focus to the new screen's PageHeader.
   const navigate = (href: string) => {
@@ -53,35 +60,38 @@ export default function App() {
 
   return (
     <Shell app={fas} appName="PrayerCompass" nav={NAV} onNavigate={navigate}>
-      <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
-        {path === '/about' ? (
-          <About />
-        ) : path === '/settings' ? (
-          <Settings
-            location={location}
-            onLocationChange={changeLocation}
-            settings={settings}
-            onSettingsChange={changeSettings}
-          />
-        ) : path === '/qibla' ? (
-          <Qibla location={location} onOpenSettings={() => navigate('/settings')} />
-        ) : path === '/week' ? (
-          <Week
-            location={location}
-            settings={settings}
-            onOpenSettings={() => navigate('/settings')}
-            onOpenToday={() => navigate('/')}
-          />
-        ) : (
-          <Today
-            location={location}
-            settings={settings}
-            onOpenSettings={() => navigate('/settings')}
-            onOpenWeek={() => navigate('/week')}
-          />
-        )}
+      {/* Each screen scrolls inside the app frame; the page itself never does. */}
+      <div ref={pageRef} className="pc-page">
+        <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
+          {path === '/about' ? (
+            <About />
+          ) : path === '/settings' ? (
+            <Settings
+              location={location}
+              onLocationChange={changeLocation}
+              settings={settings}
+              onSettingsChange={changeSettings}
+            />
+          ) : path === '/qibla' ? (
+            <Qibla location={location} onOpenSettings={() => navigate('/settings')} />
+          ) : path === '/week' ? (
+            <Week
+              location={location}
+              settings={settings}
+              onOpenSettings={() => navigate('/settings')}
+              onOpenToday={() => navigate('/')}
+            />
+          ) : (
+            <Today
+              location={location}
+              settings={settings}
+              onOpenSettings={() => navigate('/settings')}
+              onOpenWeek={() => navigate('/week')}
+            />
+          )}
+        </div>
+        <BuildInfo />
       </div>
-      <BuildInfo />
     </Shell>
   )
 }
@@ -96,6 +106,7 @@ function About() {
         location is never sent anywhere. No account, no ads. The Qibla direction is the great-circle
         bearing to the Kaaba from true north, also calculated on your device.
       </p>
+      <PrivacyNote />
       <p className="mt-4 text-[var(--muted)]">
         The Hijri date is an estimate from the Umm al-Qura calendar; the start of each month depends on
         the moon being sighted, so it can differ by a day from your local announcement.
