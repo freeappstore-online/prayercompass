@@ -1,0 +1,15 @@
+{
+  "name": "prayercompass",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "engines": { "node": ">=22" },
+  "pnpm": { "onlyBuiltDependencies": ["esbuild"] },
+  "repository": { "type": "git", "url": "git+https://github.com/freeappstore-online/prayercompass.git" },
+  "scripts": {
+    "dev": "pnpm --filter @prayercompass/web dev",
+    "build": "pnpm --filter @prayercompass/web build",
+    "preview": "pnpm --filter @prayercompass/web preview",
+    "typecheck": "pnpm --filter @prayercompass/web exec tsc -b",
+    "test": "pnpm --filter @prayercompass/web exec tsc -b"
+  }
+}
