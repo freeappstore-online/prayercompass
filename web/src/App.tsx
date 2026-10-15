@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { initApp } from '@freeappstore/sdk'
 import { BuildInfo, type NavItem, PageHeader, Shell } from '@freeappstore/sdk/ui'
 import Settings from './Settings'
+import Today from './Today'
+import Week from './Week'
 import { clearLocation, loadLocation, saveLocation, type SavedLocation } from './lib/location'
-import { METHODS, loadSettings, saveSettings, type Settings as SettingsValue } from './lib/settings'
+import { loadSettings, saveSettings, type Settings as SettingsValue } from './lib/settings'
 
 const fas = initApp({ appId: 'prayercompass' })
 
@@ -12,18 +14,9 @@ const fas = initApp({ appId: 'prayercompass' })
 // tab title on that route.
 const NAV: NavItem[] = [
   { label: 'Today', href: '/', title: 'PrayerCompass' },
+  { label: 'Week', href: '/week', title: 'This week — PrayerCompass' },
   { label: 'Settings', href: '/settings', title: 'Settings — PrayerCompass' },
   { label: 'About', href: '/about', title: 'About — PrayerCompass' },
-]
-
-// The features planned for v1 (freeappstore-online/platform#221).
-const FEATURES = [
-  { name: 'Prayer times', what: "Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha for today, and the week ahead." },
-  { name: 'Countdown', what: 'A live countdown to the next prayer.' },
-  { name: 'Your method', what: 'Choose the calculation method, Asr school and high-latitude rule.' },
-  { name: 'Qibla', what: 'The direction of the Kaaba from where you are, in degrees from true north.' },
-  { name: 'Hijri date', what: "Today's Hijri date, shown as an estimate." },
-  { name: 'Private', what: 'Times are calculated on your device. Your location never leaves it.' },
 ]
 
 export default function App() {
@@ -68,8 +61,20 @@ export default function App() {
             settings={settings}
             onSettingsChange={changeSettings}
           />
+        ) : path === '/week' ? (
+          <Week
+            location={location}
+            settings={settings}
+            onOpenSettings={() => navigate('/settings')}
+            onOpenToday={() => navigate('/')}
+          />
         ) : (
-          <Today location={location} settings={settings} onOpenSettings={() => navigate('/settings')} />
+          <Today
+            location={location}
+            settings={settings}
+            onOpenSettings={() => navigate('/settings')}
+            onOpenWeek={() => navigate('/week')}
+          />
         )}
       </div>
       <BuildInfo />
@@ -77,54 +82,25 @@ export default function App() {
   )
 }
 
-function Today({
-  location,
-  settings,
-  onOpenSettings,
-}: {
-  location: SavedLocation | null
-  settings: SettingsValue
-  onOpenSettings: () => void
-}) {
-  const method = METHODS.find((m) => m.id === settings.method)
-  return (
-    <>
-      <PageHeader
-        title="PrayerCompass"
-        description="Coming soon — private, ad-free prayer times and Qibla direction: calculated on your device, location never leaves it."
-      />
-      <ComingSoon />
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius)] border border-[var(--line)] p-4">
-        <div>
-          <p className="text-sm text-[var(--muted)]">Location</p>
-          <p className="font-semibold text-[var(--ink)]">{location ? location.label : 'Not set'}</p>
-          <p className="text-sm text-[var(--muted)]">{method?.label}</p>
-        </div>
-        <button type="button" className="underline" onClick={onOpenSettings}>
-          {location ? 'Change' : 'Set location'}
-        </button>
-      </div>
-      <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-        {FEATURES.map((feature) => (
-          <li key={feature.name} className="rounded-[var(--radius)] border border-[var(--line)] p-4">
-            <p className="font-semibold text-[var(--ink)]">{feature.name}</p>
-            <p className="text-sm text-[var(--muted)]">{feature.what}</p>
-          </li>
-        ))}
-      </ul>
-    </>
-  )
-}
-
 function About() {
   return (
     <>
       <PageHeader title="About" />
-      <ComingSoon />
+      <p className="text-[var(--muted)]">
+        PrayerCompass shows the daily prayer times, a countdown to the next prayer and the week ahead
+        for where you are. Everything is calculated on your device, so it works offline and your
+        location is never sent anywhere. No account, no ads. The Qibla direction is coming soon.
+      </p>
       <p className="mt-4 text-[var(--muted)]">
-        PrayerCompass will show the daily prayer times and the Qibla direction for where you are.
-        Everything will be calculated on your device, so it works offline and your location is never
-        sent anywhere. No account, no ads.
+        The Hijri date is an estimate from the Umm al-Qura calendar; the start of each month depends on
+        the moon being sighted, so it can differ by a day from your local announcement.
+      </p>
+      <p className="mt-4 text-[var(--muted)]">
+        Prayer times are calculated with{' '}
+        <a href="https://github.com/batoulapps/adhan-js" className="underline">
+          adhan-js
+        </a>{' '}
+        by Batoul Apps (MIT licence).
       </p>
       <p className="mt-4 text-[var(--muted)]">
         PrayerCompass is a free, MIT-licensed app on{' '}
@@ -137,11 +113,3 @@ function About() {
   )
 }
 
-// Placeholder until the features are built. None of them work yet, so it says so plainly.
-function ComingSoon() {
-  return (
-    <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
-      Coming soon. PrayerCompass is in development; you can set your location and calculation method now, and prayer times and the Qibla are on the way.
-    </p>
-  )
-}

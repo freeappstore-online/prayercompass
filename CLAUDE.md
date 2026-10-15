@@ -2,8 +2,9 @@
 
 PrayerCompass: private, ad-free prayer times and Qibla direction on FreeAppStore — today's times
 with a countdown and week view, calculated locally (adhan-js), the Qibla bearing from true north,
-and an estimated Hijri date. Location stays on the device (localStorage). Currently a "Coming
-soon" shell (Today, Settings, About); see freeappstore-online/platform#221.
+and an estimated Hijri date. Location stays on the device (localStorage). Screens: Today, Week,
+Settings, About; Qibla still to come (freeappstore-online/platform#221). Third-party licences are
+recorded in `LICENCES`.
 
 - Live: https://prayercompass.freeappstore.online
 - Dev: `pnpm install && pnpm dev`
