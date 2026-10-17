@@ -11,6 +11,10 @@ export type MethodId =
   | 'Tehran'
   | 'Dubai'
   | 'MoonsightingCommittee'
+  | 'Singapore'
+  | 'Turkey'
+  | 'Qatar'
+  | 'Kuwait'
 
 export type Madhab = 'shafi' | 'hanafi'
 
@@ -35,6 +39,10 @@ export const METHODS: { id: MethodId; label: string; detail: string }[] = [
   { id: 'Tehran', label: 'Institute of Geophysics, Tehran', detail: 'Fajr 17.7°, Isha 14°, Maghrib 4.5°' },
   { id: 'Dubai', label: 'Gulf region', detail: 'Fajr 18.2°, Isha 18.2°' },
   { id: 'MoonsightingCommittee', label: 'Moonsighting Committee', detail: 'Fajr 18°, Isha 18°, seasonal adjustment' },
+  { id: 'Singapore', label: 'Singapore', detail: 'Fajr 20°, Isha 18°, Dhuhr +1 min; times rounded up' },
+  { id: 'Turkey', label: 'Turkey (Diyanet approximation)', detail: 'Fajr 18°, Isha 17°; regional approximation, less accurate outside Turkey' },
+  { id: 'Qatar', label: 'Qatar', detail: 'Fajr 18°, Isha 90 min after Maghrib' },
+  { id: 'Kuwait', label: 'Kuwait', detail: 'Fajr 18°, Isha 17.5°' },
 ]
 
 export const MADHABS: { id: Madhab; label: string; detail: string }[] = [

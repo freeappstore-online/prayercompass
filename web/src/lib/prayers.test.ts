@@ -1,6 +1,8 @@
+import { CalculationMethod, Coordinates, PolarCircleResolution, PrayerTimes } from 'adhan'
 import { describe, expect, it } from 'vitest'
 import {
   PRAYER_ORDER,
+  calculationParameters,
   currentPrayer,
   formatCountdown,
   nextPrayer,
@@ -352,4 +354,32 @@ describe('formatCountdown', () => {
     const ticks = [0, 1000, 2000, 3000].map((elapsed) => formatCountdown(target - elapsed))
     expect(ticks).toEqual(['00:10:00', '00:09:59', '00:09:58', '00:09:57'])
   })
+})
+
+describe('regional presets', () => {
+  const methods = ['Singapore', 'Turkey', 'Qatar', 'Kuwait'] as const
+  it.each(methods)('%s retains preset angles, offsets, interval and rounding', (method) => {
+    expect(calculationParameters(settings({ method }))).toEqual({
+      ...CalculationMethod[method](), madhab: 'shafi', highLatitudeRule: 'middleofthenight',
+      adjustments: DEFAULT_SETTINGS.adjustments,
+      polarCircleResolution: PolarCircleResolution.AqrabBalad,
+    })
+  })
+  for (const method of methods) {
+    it.each(['middleofthenight', 'seventhofthenight', 'twilightangle'] as const)(
+      method + ' matches direct adhan calculation with %s and user adjustments',
+      (highLatitudeRule) => {
+        const adjustments = { fajr: -3, sunrise: 2, dhuhr: 4, asr: 5, maghrib: -1, isha: 7 }
+        const date = new Date(2024, 5, 15)
+        for (const madhab of ['shafi', 'hanafi'] as const) {
+          const preset = CalculationMethod[method]()
+          Object.assign(preset, { madhab, highLatitudeRule, adjustments,
+            polarCircleResolution: PolarCircleResolution.AqrabBalad })
+          const reference = new PrayerTimes(new Coordinates(EDINBURGH.latitude, EDINBURGH.longitude), date, preset)
+          const actual = prayerTimes(EDINBURGH, settings({ method, madhab, highLatitudeRule, adjustments }), date)
+          for (const name of PRAYER_ORDER) expect(actual.times[name]).toEqual(reference[name])
+        }
+      },
+    )
+  }
 })

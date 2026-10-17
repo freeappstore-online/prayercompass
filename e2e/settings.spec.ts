@@ -1,4 +1,4 @@
-import { MAKKAH, expect, open, prayerRow, test, withLocation } from './fixtures'
+import { MAKKAH, expect, navTo, open, prayerRow, test, withLocation } from './fixtures'
 
 // Calculation settings persist across reloads and change the times shown.
 
@@ -61,7 +61,39 @@ test('every calculation method from the issue is offered', async ({ page }) => {
     'Institute of Geophysics, Tehran',
     'Gulf region',
     'Moonsighting Committee',
+    'Singapore',
+    'Turkey (Diyanet approximation)',
+    'Qatar',
+    'Kuwait',
   ])
   const rules = await page.getByLabel('High-latitude rule').locator('option').allTextContents()
   expect(rules).toEqual(['Middle of the night', 'One seventh of the night', 'Twilight angle'])
 })
+
+for (const method of ['Singapore', 'Turkey', 'Qatar', 'Kuwait']) {
+  test(method + ' persists and recalculates Today and the timetable offline', async ({ page, context }) => {
+    await page.clock.install({ time: new Date('2016-06-04T10:00:00+03:00') })
+    await withLocation(page, MAKKAH.latitude, MAKKAH.longitude, MAKKAH.label)
+    await open(page)
+    const original = await page.getByRole('main').getByRole('listitem').allInnerTexts()
+    await navTo(page, 'Settings')
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.ready
+      if (!navigator.serviceWorker.controller) {
+        await new Promise<void>((resolve) =>
+          navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }))
+      }
+    })
+    await context.setOffline(true)
+    await page.getByLabel('Calculation method').selectOption(method)
+    if (method === 'Turkey') await expect(page.getByText(/less accurate outside Turkey/)).toBeVisible()
+    await page.reload({ waitUntil: 'load' })
+    await expect(page.getByLabel('Calculation method')).toHaveValue(method)
+    await navTo(page, 'Today')
+    const updated = await page.getByRole('main').getByRole('listitem').allInnerTexts()
+    expect(updated).not.toEqual(original)
+    const fajr = await prayerRow(page, 'Fajr').locator('span[dir=ltr]').innerText()
+    await navTo(page, 'Week')
+    await expect(page.getByRole('table').getByRole('row').nth(1)).toContainText(fajr)
+  })
+}

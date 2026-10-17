@@ -24,6 +24,10 @@ describe('settings options', () => {
       'Tehran',
       'Dubai',
       'MoonsightingCommittee',
+      'Singapore',
+      'Turkey',
+      'Qatar',
+      'Kuwait',
     ])
     expect(HIGH_LATITUDE_RULES.map((r) => r.id)).toEqual(['middleofthenight', 'seventhofthenight', 'twilightangle'])
   })
@@ -44,6 +48,19 @@ describe('settings storage', () => {
     }
     saveSettings(settings, storage)
     expect(loadSettings(storage)).toEqual(settings)
+  })
+
+  it.each(METHODS)('preserves saved $id settings', ({ id }) => {
+    const storage = memoryStorage()
+    const saved: Settings = {
+      ...DEFAULT_SETTINGS, method: id, madhab: 'hanafi',
+      highLatitudeRule: 'twilightangle',
+      adjustments: { fajr: -2, sunrise: 1, dhuhr: 3, asr: 4, maghrib: 1, isha: 8 },
+    }
+    storage.setItem(SETTINGS_KEY, JSON.stringify(saved))
+    expect(loadSettings(storage)).toEqual(saved)
+    saveSettings(loadSettings(storage), storage)
+    expect(loadSettings(storage)).toEqual(saved)
   })
 
   it('recovers from corrupt or outdated values', () => {
