@@ -4,6 +4,7 @@ import { PageHeader } from '@freeappstore/sdk/ui'
 import type { SavedLocation } from './lib/location'
 import { compassPoint, distanceToKaaba, qiblaBearing } from './lib/qibla'
 import { NoLocation } from './Today'
+import QiblaMap from './lib/QiblaMap'
 
 interface Props {
   location: SavedLocation | null
@@ -58,6 +59,7 @@ export default function Qibla({ location, onOpenSettings }: Props) {
         <p className="mt-2">The numeric bearing uses true north. Device headings may use magnetic north (including iOS), so the live arrow can differ by local magnetic declination. Accuracy may be unknown. For a precise direction, verify with a compass set to true north.</p>
         <p className="mt-2">When static, align the top of the diagram with true north using a separate compass. Sensor readings stay in memory and are never saved or sent.</p>
       </div>}
+      <QiblaMap lat={location.latitude} lon={location.longitude} />
       <p className="mt-2 text-sm text-[var(--muted)]">
         The bearing is the shortest path over the globe (great circle) to the Kaaba, calculated on your device.
       </p>

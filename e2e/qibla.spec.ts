@@ -56,6 +56,7 @@ for (const permission of ['granted', 'denied', 'error', 'unsupported']) {
     if (permission !== 'granted') {
       await expect(page.getByText(permission === 'unsupported' ? /Live compass unavailable/ : /Compass permission denied/)).toBeVisible()
       await expect(page.getByRole('img', { name: /Arrow pointing/ })).toBeVisible()
+      await expect(page.getByRole('img', { name: /North-up world map/ })).toBeVisible()
       return
     }
     await expect(page.getByText(/Waiting for an absolute heading/)).toBeVisible()
