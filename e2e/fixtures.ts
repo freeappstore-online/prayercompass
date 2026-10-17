@@ -40,11 +40,12 @@ export const test = base.extend<{ pageErrors: string[]; hosts: Set<string>; bodi
 
 export { expect }
 
-export type Screen = 'Today' | 'Week' | 'Qibla' | 'Settings' | 'About'
+export type Screen = 'Today' | 'Monthly' | 'Week' | 'Qibla' | 'Settings' | 'About'
 
 /** Each screen's <h1>. */
 export const HEADINGS: Record<Screen, string> = {
   Today: 'Today',
+  Monthly: 'Monthly timetable',
   Week: 'This week',
   Qibla: 'Qibla',
   Settings: 'Settings',

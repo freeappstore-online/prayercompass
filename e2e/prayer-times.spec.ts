@@ -72,7 +72,7 @@ test("after Isha, the countdown is to tomorrow's Fajr", async ({ page }) => {
 test('the week view lists seven days of six prayers and scrolls without breaking the layout', async ({ page }) => {
   await page.clock.install({ time: new Date('2016-06-04T10:00:00+03:00') })
   await open(page)
-  await page.getByRole('button', { name: 'This week' }).click()
+  await navTo(page, 'Week')
   await expect(page.getByRole('heading', { level: 1, name: 'This week' })).toBeVisible()
   const table = page.getByRole('table')
   await expect(table.getByRole('columnheader')).toHaveCount(7)

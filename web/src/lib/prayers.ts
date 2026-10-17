@@ -79,6 +79,13 @@ export function weekPrayers(position: Position, settings: Settings, start: Date,
   return Array.from({ length: days }, (_, i) => prayerTimes(position, settings, addDays(start, i)))
 }
 
+/** Every Gregorian calendar day of the month containing date, in local time. */
+export function monthPrayers(position: Position, settings: Settings, date: Date): DayTimes[] {
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  return weekPrayers(position, settings, new Date(year, month, 1), new Date(year, month + 1, 0).getDate())
+}
+
 function isValid(date: Date): boolean {
   return !Number.isNaN(date.getTime())
 }

@@ -33,6 +33,13 @@ test('loads and shows prayer times, the week and the Qibla offline', async ({ pa
   // Other screens load offline as fresh navigations (SPA fallback).
   await page.goto('/week')
   await expect(page.getByRole('table')).toContainText('4:11 AM')
+  await page.goto('/month')
+  await expect(page.locator('tbody tr')).toHaveCount(30)
+  await page.getByRole('button', { name: 'Next month' }).click()
+  await expect(page.getByRole('heading', { name: 'July 2016' })).toBeVisible()
+  await expect(page.locator('tbody tr')).toHaveCount(31)
+  await page.getByRole('button', { name: 'Current month' }).click()
+  await expect(page.locator('tr[aria-current=date]')).toContainText('4:11 AM')
   await page.goto('/qibla')
   await expect(page.getByRole('heading', { level: 1, name: 'Qibla' })).toBeVisible()
 })

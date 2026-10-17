@@ -6,6 +6,7 @@ import Qibla from './Qibla'
 import Settings from './Settings'
 import Today from './Today'
 import Week from './Week'
+import Month from './Month'
 import { clearLocation, loadLocation, saveLocation, type SavedLocation } from './lib/location'
 import { loadSettings, saveSettings, type Settings as SettingsValue } from './lib/settings'
 
@@ -16,6 +17,7 @@ const fas = initApp({ appId: 'prayercompass' })
 // tab title on that route.
 const NAV: NavItem[] = [
   { label: 'Today', href: '/', title: 'PrayerCompass' },
+  { label: 'Monthly', href: '/month', title: 'Monthly timetable | PrayerCompass' },
   { label: 'Week', href: '/week', title: 'This week — PrayerCompass' },
   { label: 'Qibla', href: '/qibla', title: 'Qibla — PrayerCompass' },
   { label: 'Settings', href: '/settings', title: 'Settings — PrayerCompass' },
@@ -74,6 +76,8 @@ export default function App() {
             />
           ) : path === '/qibla' ? (
             <Qibla location={location} onOpenSettings={() => navigate('/settings')} />
+          ) : path === '/month' ? (
+            <Month location={location} settings={settings} onOpenSettings={() => navigate('/settings')} onOpenToday={() => navigate('/')} />
           ) : path === '/week' ? (
             <Week
               location={location}
@@ -86,7 +90,7 @@ export default function App() {
               location={location}
               settings={settings}
               onOpenSettings={() => navigate('/settings')}
-              onOpenWeek={() => navigate('/week')}
+              onOpenMonth={() => navigate('/month')}
             />
           )}
         </div>
@@ -101,7 +105,7 @@ function About() {
     <>
       <PageHeader title="About" />
       <p className="text-[var(--muted)]">
-        PrayerCompass shows the daily prayer times, a countdown to the next prayer and the week ahead
+        PrayerCompass shows the daily prayer times, a countdown to the next prayer and monthly timetables
         for where you are. Everything is calculated on your device, so it works offline and your
         location is never sent anywhere. No account, no ads. The Qibla direction is the great-circle
         bearing to the Kaaba from true north, also calculated on your device.

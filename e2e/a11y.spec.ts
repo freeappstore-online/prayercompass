@@ -18,7 +18,7 @@ async function audit(page: Page, label: string) {
 for (const theme of ['light', 'dark'] as const) {
   test.describe(theme, () => {
     test.use({ colorScheme: theme })
-    for (const path of ['/', '/week', '/qibla', '/settings', '/about']) {
+    for (const path of ['/', '/month', '/week', '/qibla', '/settings', '/about']) {
       test(`${path} has no WCAG A/AA violations`, async ({ page }) => {
         await withLocation(page, 41.01, 28.98, 'Istanbul, Türkiye')
         await open(page, path)
@@ -74,7 +74,7 @@ test('the week table can be scrolled with the keyboard', async ({ page }) => {
 
 test('in a right-to-left page, layout mirrors and nothing overflows', async ({ page }) => {
   await withLocation(page, 41.01, 28.98, 'Istanbul, Türkiye')
-  for (const path of ['/', '/week', '/settings', '/qibla']) {
+  for (const path of ['/', '/month', '/week', '/settings', '/qibla']) {
     await open(page, path)
     await page.evaluate(() => {
       document.documentElement.dir = 'rtl'

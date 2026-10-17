@@ -61,10 +61,10 @@ interface Props {
   location: SavedLocation | null
   settings: Settings
   onOpenSettings: () => void
-  onOpenWeek: () => void
+  onOpenMonth: () => void
 }
 
-export default function Today({ location, settings, onOpenSettings, onOpenWeek }: Props) {
+export default function Today({ location, settings, onOpenSettings, onOpenMonth }: Props) {
   const now = useNow()
   const dayKey = now.toDateString()
   // Today and tomorrow, so the countdown carries on after Isha. Recomputed
@@ -91,8 +91,8 @@ export default function Today({ location, settings, onOpenSettings, onOpenWeek }
             Times are shown in this device's time zone.
           </p>
           <div className="flex gap-4">
-            <button type="button" className="underline" onClick={onOpenWeek}>
-              This week
+            <button type="button" className="underline" onClick={onOpenMonth}>
+              Monthly timetable
             </button>
             <button type="button" className="underline" onClick={onOpenSettings}>
               Change

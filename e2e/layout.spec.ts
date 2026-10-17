@@ -12,7 +12,7 @@ for (const viewport of [
 ]) {
   test.describe(`${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport })
-    for (const path of ['/', '/week', '/qibla', '/settings', '/about']) {
+    for (const path of ['/', '/month', '/week', '/qibla', '/settings', '/about']) {
       test(`${path} fits without the page scrolling`, async ({ page }) => {
         await withLocation(page, 41.01, 28.98, 'Istanbul, Türkiye')
         await open(page, path)
