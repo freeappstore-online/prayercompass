@@ -3,7 +3,7 @@
 PrayerCompass: private, ad-free prayer times and Qibla direction on FreeAppStore — today's times
 with a countdown, monthly timetable and week view, calculated locally (adhan-js), the Qibla bearing from true north,
 and an estimated Hijri date. Location stays on the device (localStorage). Screens: Today, Monthly, Week,
-Qibla (static arrow; no compass sensors), Settings, About (freeappstore-online/platform#221).
+Qibla (optional live compass with static fallback), Settings, About (freeappstore-online/platform#221).
 Third-party licences are recorded in `LICENCES`.
 
 - Live: https://prayercompass.freeappstore.online

@@ -1,5 +1,5 @@
 // The Qibla: the great-circle bearing from a location to the Kaaba, in degrees
-// clockwise from true north. Calculated on the device; no compass sensors.
+// clockwise from true north. Calculated locally, independently of live sensors.
 
 export const KAABA = { lat: 21.4225, lng: 39.8262 }
 
