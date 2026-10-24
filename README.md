@@ -36,3 +36,5 @@ MIT. Third-party licences are in [LICENCES](LICENCES).
 The compass uses absolute DeviceOrientationEvent headings or iOS webkitCompassHeading; raw DeviceMotionEvent acceleration cannot establish north. Permissions are requested only from the enable button. Sensor readings remain in memory; the existing Settings GPS flow supplies location. iOS headings use magnetic north; no declination correction is applied. Hold the phone flat and calibrate away from magnetic interference.
 
 Automated tests cover synthetic permission outcomes, absolute/relative and invalid readings, wraparound, screen rotation, low accuracy, stale readings and listener removal. Physical iOS Safari and Android Chrome testing was not available in this run. Before release verification, check permission prompts, portrait/landscape alignment against a true-north compass, calibration and background/navigation behavior on both devices.
+
+After deployment, run `LIVE_COMPASS_SMOKE=1 pnpm exec playwright test e2e/live-compass.spec.ts` to check the live host's sensor policy and the deployed UI with a synthetic heading. This does not verify readings from a physical device.
