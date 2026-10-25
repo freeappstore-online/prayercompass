@@ -20,6 +20,8 @@ test('loads and shows prayer times, the week and the Qibla offline', async ({ pa
   await context.setOffline(true)
   await page.reload()
   await expect(page.getByRole('heading', { level: 1, name: 'Today' })).toBeVisible()
+  await expect(page.getByText("28 Sha'ban 1437 AH (estimated)")).toBeVisible()
+  await expect(page.getByText('Next: Dhuhr at 12:19 PM')).toBeVisible()
   for (const [name, time] of Object.entries(MAKKAH_2016_06_04)) {
     await expect(prayerRow(page, name)).toContainText(time)
   }

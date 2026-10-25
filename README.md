@@ -5,13 +5,17 @@ location never leaves it.** A free app on [FreeAppStore](https://freeappstore.on
 https://prayercompass.freeappstore.online.
 
 - **Prayer times** for today (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) with a live countdown to the
-  next prayer, and the week ahead. Calculated with [adhan-js](https://github.com/batoulapps/adhan-js)
-  (MIT): 8 calculation methods, Shafi'i or Hanafi Asr, a high-latitude rule and per-prayer adjustments.
-- **Qibla**: the great-circle bearing to the Kaaba from true north, with an optional live device compass and calibration guidance.
+  next prayer, a navigable monthly timetable, and the week ahead. Calculated with
+  [adhan-js](https://github.com/batoulapps/adhan-js) (MIT): 12 calculation methods, Shafi'i or Hanafi
+  Asr, three high-latitude rules and per-prayer adjustments.
+- **Qibla**: the great-circle bearing to the Kaaba from true north, with an optional live device compass,
+  calibration guidance and a bundled offline map fallback.
 - **Hijri date** (Umm al-Qura), shown as an estimate.
 - **Location** from your device, a built-in list of 240+ cities, or typed coordinates. Stored only in
   this browser; no geocoding service.
-- Works offline, light and dark themes, no account, no ads.
+- Works offline after the first visit, with light and dark themes, no account and no ads. The host uses
+  cookieless page-view analytics; the [in-app privacy note](https://prayercompass.freeappstore.online/about)
+  explains what is collected.
 
 ## Develop
 
