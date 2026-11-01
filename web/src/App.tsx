@@ -104,25 +104,25 @@ function About() {
   return (
     <>
       <PageHeader title="About" />
-      <p className="text-[var(--muted)]">
+      <p className="text-muted">
         PrayerCompass shows the daily prayer times, a countdown to the next prayer and monthly timetables
         for where you are. Everything is calculated on your device, so it works offline and your
         location is never sent anywhere. No account, no ads. The Qibla direction is the great-circle
         bearing to the Kaaba from true north, also calculated on your device.
       </p>
       <PrivacyNote />
-      <p className="mt-4 text-[var(--muted)]">
+      <p className="mt-4 text-muted">
         The Hijri date is an estimate from the Umm al-Qura calendar; the start of each month depends on
         the moon being sighted, so it can differ by a day from your local announcement.
       </p>
-      <p className="mt-4 text-[var(--muted)]">
+      <p className="mt-4 text-muted">
         Prayer times are calculated with{' '}
         <a href="https://github.com/batoulapps/adhan-js" className="underline">
           adhan-js
         </a>{' '}
         by Batoul Apps (MIT licence).
       </p>
-      <p className="mt-4 text-[var(--muted)]">
+      <p className="mt-4 text-muted">
         PrayerCompass is a free, MIT-licensed app on{' '}
         <a href="https://freeappstore.online" className="underline">
           FreeAppStore

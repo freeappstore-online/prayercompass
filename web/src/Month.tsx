@@ -26,28 +26,28 @@ export default function Month({ location, settings, onOpenSettings, onOpenToday 
     <>
       <PageHeader title="Monthly timetable" description={location?.label} />
       <div className="mb-4 flex flex-wrap items-center gap-3">
-        <button type="button" className="rounded-[var(--radius)] border border-[var(--line)] px-3 py-2" onClick={() => moveMonth(-1)}>Previous month</button>
+        <button type="button" className="rounded-fas border border-line px-3 py-2" onClick={() => moveMonth(-1)}>Previous month</button>
         <h2 className="text-lg font-semibold" aria-live="polite" aria-atomic="true">{monthLabel}</h2>
-        <button type="button" className="rounded-[var(--radius)] border border-[var(--line)] px-3 py-2" onClick={() => moveMonth(1)}>Next month</button>
+        <button type="button" className="rounded-fas border border-line px-3 py-2" onClick={() => moveMonth(1)}>Next month</button>
         <button type="button" className="underline" onClick={() => setSelected(new Date(now.getFullYear(), now.getMonth(), 1))}>Current month</button>
       </div>
-      <p className="mb-4 text-sm text-[var(--muted)]">Times are shown in this device's time zone.</p>
+      <p className="mb-4 text-sm text-muted">Times are shown in this device's time zone.</p>
       {!location || !month ? (
         <NoLocation onOpenSettings={onOpenSettings} />
       ) : (
         // Scrolls sideways on narrow screens; the day column stays put.
-        <div className="overflow-x-auto rounded-[var(--radius)] border border-[var(--line)]" tabIndex={0} role="region" aria-label="Monthly prayer times">
+        <div className="overflow-x-auto rounded-fas border border-line" tabIndex={0} role="region" aria-label="Monthly prayer times">
           <table className="w-full min-w-[40rem] border-collapse text-start tabular-nums">
             <caption className="sr-only">{monthLabel} prayer times for {location.label}</caption>
             <thead>
-              <tr className="border-b border-[var(--line-strong)]">
-                <th scope="col" className="sticky start-0 bg-[var(--paper)] px-3 py-2 text-start">
+              <tr className="border-b border-line-strong">
+                <th scope="col" className="sticky start-0 bg-paper px-3 py-2 text-start">
                   Day
                 </th>
                 {PRAYER_ORDER.map((name) => (
                   <th key={name} scope="col" className="px-3 py-2 text-start font-semibold">
                     <span className="block">{PRAYER_LABELS[name]}</span>
-                    <span dir="auto" lang="ar" className="block text-sm font-normal text-[var(--muted)]">
+                    <span dir="auto" lang="ar" className="block text-sm font-normal text-muted">
                       {ARABIC_NAMES[name]}
                     </span>
                   </th>
@@ -59,13 +59,13 @@ export default function Month({ location, settings, onOpenSettings, onOpenToday 
                 <tr
                   key={day.date.toISOString()}
                   aria-current={day.date.toDateString() === now.toDateString() ? 'date' : undefined}
-                  className={`border-b border-[var(--line)] last:border-0 ${day.date.toDateString() === now.toDateString() ? 'font-bold' : ''}`}
+                  className={`border-b border-line last:border-0 ${day.date.toDateString() === now.toDateString() ? 'font-bold' : ''}`}
                 >
-                  <th scope="row" className="sticky start-0 whitespace-nowrap bg-[var(--paper)] px-3 py-2 text-start">
+                  <th scope="row" className="sticky start-0 whitespace-nowrap bg-paper px-3 py-2 text-start">
                     {day.date.toDateString() === now.toDateString() ? `Today: ${day.date.toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}` : day.date.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}
                   </th>
                   {PRAYER_ORDER.map((name) => (
-                    <td key={name} className={`whitespace-nowrap px-3 py-2 ${name === 'sunrise' ? 'text-[var(--muted)]' : ''}`}>
+                    <td key={name} className={`whitespace-nowrap px-3 py-2 ${name === 'sunrise' ? 'text-muted' : ''}`}>
                       <span dir="ltr">{formatTime(day.times[name])}</span>
                     </td>
                   ))}

@@ -7,8 +7,8 @@ import App from './App.tsx'
 // theme. The Shell's toggle sets data-theme on <html>; it starts from the
 // system preference and remembers the user's choice.
 const syncThemeColor = () => {
-  const dark = document.documentElement.dataset.theme === 'dark'
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#000000' : '#ffffff')
+  const paper = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim()
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', paper)
 }
 syncThemeColor()
 new MutationObserver(syncThemeColor).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })

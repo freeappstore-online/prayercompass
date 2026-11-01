@@ -5,12 +5,12 @@ export function PrivacyNote() {
   return (
     <section
       aria-labelledby="privacy-note"
-      className="mt-6 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 sm:p-5"
+      className="mt-6 rounded-fas border border-line bg-panel p-4 sm:p-5"
     >
-      <h2 id="privacy-note" className="text-xl font-semibold text-[var(--ink)]">
+      <h2 id="privacy-note" className="text-xl font-semibold text-ink">
         Privacy
       </h2>
-      <ul className="mt-2 grid list-disc gap-2 ps-5 text-[var(--muted)]">
+      <ul className="mt-2 grid list-disc gap-2 ps-5 text-muted">
         <li>
           Your location and settings are stored only in this browser on this device (localStorage).
           PrayerCompass never sends your location anywhere, and there is no account.

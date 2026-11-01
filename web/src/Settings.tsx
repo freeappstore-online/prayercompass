@@ -13,11 +13,11 @@ import {
   type Settings as SettingsValue,
 } from './lib/settings'
 
-const card = 'rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 sm:p-5'
+const card = 'rounded-fas border border-line bg-panel p-4 sm:p-5'
 const button =
-  'rounded-[var(--radius)] border border-[var(--line-strong)] px-4 py-2 font-semibold text-[var(--ink)] hover:bg-[var(--paper-deep)] disabled:opacity-60'
+  'rounded-fas border border-line-strong px-4 py-2 font-semibold text-ink hover:bg-paper-deep disabled:opacity-60'
 const input =
-  'w-full rounded-[var(--radius)] border border-[var(--line-strong)] bg-[var(--paper)] px-3 py-2 text-[var(--ink)]'
+  'w-full rounded-fas border border-line-strong bg-paper px-3 py-2 text-ink'
 
 interface Props {
   location: SavedLocation | null
@@ -40,7 +40,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   const id = useId()
   return (
     <section aria-labelledby={id} className="mt-6">
-      <h2 id={id} className="mb-3 text-xl font-semibold text-[var(--ink)]">
+      <h2 id={id} className="mb-3 text-xl font-semibold text-ink">
         {title}
       </h2>
       {children}
@@ -72,17 +72,17 @@ function LocationSection({ location, onChange }: { location: SavedLocation | nul
   return (
     <Section title="Location">
       <div className={card}>
-        <p className="text-sm text-[var(--muted)]">Current location</p>
+        <p className="text-sm text-muted">Current location</p>
         {location ? (
           <>
-            <p className="text-lg font-semibold text-[var(--ink)]">{location.label}</p>
-            <p className="text-sm text-[var(--muted)]">
+            <p className="text-lg font-semibold text-ink">{location.label}</p>
+            <p className="text-sm text-muted">
               {formatCoordinates(location.latitude, location.longitude)} ·{' '}
               {location.source === 'gps' ? 'from your device' : location.source === 'city' ? 'from the city list' : 'entered by hand'}
             </p>
             <button
               type="button"
-              className="mt-3 text-sm text-[var(--muted)] underline"
+              className="mt-3 text-sm text-muted underline"
               onClick={() => {
                 onChange(null)
                 setStatus({ kind: 'info', text: 'Location removed from this device.' })
@@ -92,16 +92,16 @@ function LocationSection({ location, onChange }: { location: SavedLocation | nul
             </button>
           </>
         ) : (
-          <p className="text-lg font-semibold text-[var(--ink)]">Not set</p>
+          <p className="text-lg font-semibold text-ink">Not set</p>
         )}
-        <p role="status" className={`mt-3 text-sm ${status?.kind === 'error' ? 'text-[var(--danger)]' : 'text-[var(--muted)]'}`}>
+        <p role="status" className={`mt-3 text-sm ${status?.kind === 'error' ? 'text-danger' : 'text-muted'}`}>
           {status?.text}
         </p>
       </div>
 
       <div className={`${card} mt-3`}>
-        <h3 className="font-semibold text-[var(--ink)]">Use my location</h3>
-        <p className="mt-1 text-sm text-[var(--muted)]">
+        <h3 className="font-semibold text-ink">Use my location</h3>
+        <p className="mt-1 text-sm text-muted">
           Your browser will ask for permission. The position is used on this device only and is never sent anywhere.
         </p>
         <button type="button" className={`${button} mt-3`} onClick={useGps} disabled={locating}>
@@ -118,8 +118,8 @@ function LocationSection({ location, onChange }: { location: SavedLocation | nul
         }
       />
 
-      <p className="mt-3 text-sm text-[var(--muted)]">
-        <strong className="text-[var(--ink)]">Privacy:</strong> your location is stored only in this browser (localStorage) and
+      <p className="mt-3 text-sm text-muted">
+        <strong className="text-ink">Privacy:</strong> your location is stored only in this browser (localStorage) and
         never leaves your device. City search uses a list built into the app, so nothing you type is sent anywhere. Prayer
         times and the Qibla are calculated on your device. The full privacy note, including page-view counts, is on
         the About screen.
@@ -134,10 +134,10 @@ function CitySearch({ onPick }: { onPick: (city: City) => void }) {
   const results = searchCities(query)
   return (
     <div className={`${card} mt-3`}>
-      <label htmlFor={inputId} className="font-semibold text-[var(--ink)]">
+      <label htmlFor={inputId} className="font-semibold text-ink">
         Search for a city
       </label>
-      <p className="mt-1 text-sm text-[var(--muted)]">From a list built into the app — works offline.</p>
+      <p className="mt-1 text-sm text-muted">From a list built into the app — works offline.</p>
       <input
         id={inputId}
         type="search"
@@ -148,9 +148,9 @@ function CitySearch({ onPick }: { onPick: (city: City) => void }) {
         onChange={(event) => setQuery(event.target.value)}
       />
       {query.trim() && (
-        <ul className="mt-2 divide-y divide-[var(--line)]" aria-label="Matching cities">
+        <ul className="mt-2 divide-y divide-line" aria-label="Matching cities">
           {results.length === 0 ? (
-            <li className="py-2 text-sm text-[var(--muted)]">
+            <li className="py-2 text-sm text-muted">
               No city found. Try a nearby larger city, or enter coordinates below.
             </li>
           ) : (
@@ -158,14 +158,14 @@ function CitySearch({ onPick }: { onPick: (city: City) => void }) {
               <li key={`${city.name}|${city.country}`}>
                 <button
                   type="button"
-                  className="w-full py-2 text-start hover:bg-[var(--paper-deep)]"
+                  className="w-full py-2 text-start hover:bg-paper-deep"
                   onClick={() => {
                     onPick(city)
                     setQuery('')
                   }}
                 >
-                  <span className="font-semibold text-[var(--ink)]">{city.name}</span>
-                  <span className="text-[var(--muted)]">, {city.country}</span>
+                  <span className="font-semibold text-ink">{city.name}</span>
+                  <span className="text-muted">, {city.country}</span>
                 </button>
               </li>
             ))
@@ -197,24 +197,24 @@ function ManualEntry({ initial, onSave }: { initial: SavedLocation | null; onSav
 
   return (
     <form className={`${card} mt-3`} onSubmit={submit} noValidate>
-      <h3 className="font-semibold text-[var(--ink)]">Enter coordinates</h3>
-      <p className="mt-1 text-sm text-[var(--muted)]">Decimal degrees. South and west are negative.</p>
+      <h3 className="font-semibold text-ink">Enter coordinates</h3>
+      <p className="mt-1 text-sm text-muted">Decimal degrees. South and west are negative.</p>
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         <div>
-          <label htmlFor={latId} className="text-sm text-[var(--muted)]">
+          <label htmlFor={latId} className="text-sm text-muted">
             Latitude (-90 to 90)
           </label>
           <input id={latId} className={input} inputMode="decimal" value={lat} onChange={(e) => setLat(e.target.value)} aria-describedby={error ? errorId : undefined} placeholder="21.4225" />
         </div>
         <div>
-          <label htmlFor={lngId} className="text-sm text-[var(--muted)]">
+          <label htmlFor={lngId} className="text-sm text-muted">
             Longitude (-180 to 180)
           </label>
           <input id={lngId} className={input} inputMode="decimal" value={lng} onChange={(e) => setLng(e.target.value)} aria-describedby={error ? errorId : undefined} placeholder="39.8262" />
         </div>
       </div>
       {error && (
-        <p id={errorId} role="alert" className="mt-2 text-sm text-[var(--danger)]">
+        <p id={errorId} role="alert" className="mt-2 text-sm text-danger">
           {error}
         </p>
       )}
@@ -234,7 +234,7 @@ function CalculationSection({ settings, onChange }: { settings: SettingsValue; o
   return (
     <Section title="Calculation">
       <div className={card}>
-        <label htmlFor={methodId} className="font-semibold text-[var(--ink)]">
+        <label htmlFor={methodId} className="font-semibold text-ink">
           Calculation method
         </label>
         <select
@@ -249,11 +249,11 @@ function CalculationSection({ settings, onChange }: { settings: SettingsValue; o
             </option>
           ))}
         </select>
-        <p className="mt-1 text-sm text-[var(--muted)]">{method?.detail}</p>
+        <p className="mt-1 text-sm text-muted">{method?.detail}</p>
       </div>
 
       <fieldset className={`${card} mt-3`}>
-        <legend className="float-start w-full font-semibold text-[var(--ink)]">Asr calculation</legend>
+        <legend className="float-start w-full font-semibold text-ink">Asr calculation</legend>
         {MADHABS.map((m) => (
           <label key={m.id} className="clear-start flex items-start gap-2 pt-2">
             <input
@@ -264,15 +264,15 @@ function CalculationSection({ settings, onChange }: { settings: SettingsValue; o
               onChange={() => onChange({ ...settings, madhab: m.id })}
             />
             <span>
-              <span className="text-[var(--ink)]">{m.label}</span>
-              <span className="block text-sm text-[var(--muted)]">{m.detail}</span>
+              <span className="text-ink">{m.label}</span>
+              <span className="block text-sm text-muted">{m.detail}</span>
             </span>
           </label>
         ))}
       </fieldset>
 
       <div className={`${card} mt-3`}>
-        <label htmlFor={latitudeRuleId} className="font-semibold text-[var(--ink)]">
+        <label htmlFor={latitudeRuleId} className="font-semibold text-ink">
           High-latitude rule
         </label>
         <select
@@ -287,12 +287,12 @@ function CalculationSection({ settings, onChange }: { settings: SettingsValue; o
             </option>
           ))}
         </select>
-        <p className="mt-1 text-sm text-[var(--muted)]">{rule?.detail}. Used where twilight lasts all night in summer.</p>
+        <p className="mt-1 text-sm text-muted">{rule?.detail}. Used where twilight lasts all night in summer.</p>
       </div>
 
       <fieldset className={`${card} mt-3`}>
-        <legend className="float-start w-full font-semibold text-[var(--ink)]">Adjustments (minutes)</legend>
-        <p className="clear-start pt-1 text-sm text-[var(--muted)]">
+        <legend className="float-start w-full font-semibold text-ink">Adjustments (minutes)</legend>
+        <p className="clear-start pt-1 text-sm text-muted">
           Shift a time to match your local mosque, from -{MAX_ADJUSTMENT} to +{MAX_ADJUSTMENT} minutes.
         </p>
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -326,7 +326,7 @@ function AdjustmentInput({ label, value, onChange }: { label: string; value: num
   }
   return (
     <div>
-      <label htmlFor={id} className="text-sm text-[var(--muted)]">
+      <label htmlFor={id} className="text-sm text-muted">
         {label}
       </label>
       <input

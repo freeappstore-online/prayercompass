@@ -1,4 +1,46 @@
 @import "tailwindcss";
+@source "../node_modules/@freeappstore/sdk/dist";
+
+@theme inline {
+  --color-popover: var(--popover);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-panel: var(--panel);
+  --color-panel-strong: var(--panel-strong);
+  --color-panel-quiet: var(--panel-quiet);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-deep: var(--accent-deep);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-accent-hover: var(--accent-hover);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-sky-deep: var(--sky-deep);
+  --color-mint: var(--mint);
+  --color-mint-soft: var(--mint-soft);
+  --color-mint-deep: var(--mint-deep);
+  --radius-fas: var(--radius);
+  --radius-fas-sm: var(--radius-sm);
+  --shadow-fas: var(--shadow);
+  --color-bg-start: var(--bg-start);
+  --color-bg-mid: var(--bg-mid);
+  --color-bg-end: var(--bg-end);
+  --color-glow-warm: var(--glow-warm);
+  --color-glow-cool: var(--glow-cool);
+  --color-bg-blob-1: var(--bg-blob-1);
+  --color-bg-blob-2: var(--bg-blob-2);
+  --color-danger-soft: var(--danger-soft);
+  --color-success-soft: var(--success-soft);
+  --color-warning-soft: var(--warning-soft);
+  --color-scrim: var(--scrim);
+}
 
 /* Brand fonts, self-hosted from @fontsource-variable so the app makes no
    third-party requests (latin + latin-ext subsets). */
@@ -49,9 +91,9 @@
   --muted: #666666;
   --line: rgba(0, 0, 0, 0.08);
   --line-strong: rgba(0, 0, 0, 0.14);
-  --panel: rgba(255, 255, 255, 0.72);
-  --panel-strong: rgba(255, 255, 255, 0.88);
-  --panel-quiet: rgba(255, 255, 255, 0.6);
+  --panel: rgb(255, 255, 255);
+  --panel-strong: rgb(255, 255, 255);
+  --panel-quiet: rgb(255, 255, 255);
   --accent: #d86f4d;
   --accent-soft: #ffd4bf;
   --accent-deep: #9f4427;
@@ -86,6 +128,11 @@
   --radius: 0.75rem;
   --radius-sm: 0.5rem;
   --shadow: var(--shadow-card);
+  --popover: var(--paper);
+  --danger-soft: #fef2f2;
+  --success-soft: #f0fdf4;
+  --warning-soft: #fefce8;
+  --scrim: rgba(15, 23, 42, 0.5);
 }
 
 :root[data-theme='dark'] {
@@ -96,9 +143,9 @@
   --muted: #888888;
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.14);
-  --panel: rgba(18, 18, 18, 0.8);
-  --panel-strong: rgba(18, 18, 18, 0.92);
-  --panel-quiet: rgba(22, 22, 22, 0.8);
+  --panel: rgb(18, 18, 18);
+  --panel-strong: rgb(18, 18, 18);
+  --panel-quiet: rgb(22, 22, 22);
   --accent: #ff9b76;
   --accent-soft: #3b2119;
   --accent-deep: #ffd9cb;
@@ -125,6 +172,11 @@
   --bg-blob-2: rgba(137, 203, 229, 0.05);
   --shadow-soft: 0 28px 70px rgba(0, 0, 0, 0.6);
   --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.4);
+  --popover: var(--paper);
+  --danger-soft: #450a0a;
+  --success-soft: #052e16;
+  --warning-soft: #422006;
+  --scrim: rgba(0, 0, 0, 0.65);
 }
 
 html {
@@ -237,23 +289,31 @@ summary:focus-visible,
 } /* end @layer base */
 
 /* Shell's text-size preference scales rem-based app typography. */
-:root[data-text='lg'] { font-size: 112.5%; }
-:root[data-text='sm'] { font-size: 87.5%; }
 
 /* The SDK's Sign in button is white on --accent (3.3:1 light, 2.1:1 dark),
    below WCAG AA for its 14px text. Use the deep accent with paper text instead
    (white on #9f4427, black on #ffd9cb). Its colours are inline styles, hence
    !important. */
+
+/* App frame: fills the screen exactly. The header stays put, each screen
+   scrolls inside .pc-page, and the page itself never scrolls (fas
+   screencheck checks this down to 320px wide and 320px tall). */
+
+/* In the installed app the platform footer is pinned to the bottom. */
+
+/* "PrayerCompass" is a long name for the SDK Shell's topbar, which is ~50px
+   too wide at 320px and ~10px at 360px. Tighten its spacing on narrow phones
+   so Sign in stays on screen. */
+
+@layer components{
+:root[data-text='lg'] { font-size: 112.5%; }
+:root[data-text='sm'] { font-size: 87.5%; }
 header button[style*='--accent'] {
   background: var(--accent-deep) !important;
   color: var(--paper) !important;
   /* Keep "Sign in" on one line; it wraps at phone widths otherwise. */
   white-space: nowrap;
 }
-
-/* App frame: fills the screen exactly. The header stays put, each screen
-   scrolls inside .pc-page, and the page itself never scrolls (fas
-   screencheck checks this down to 320px wide and 320px tall). */
 div:has(> main.fas-main) {
   height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   min-height: 0 !important;
@@ -269,17 +329,11 @@ main.fas-main {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-
-/* In the installed app the platform footer is pinned to the bottom. */
 @media (display-mode: standalone) {
   .pc-page {
     padding-bottom: 2.25rem;
   }
 }
-
-/* "PrayerCompass" is a long name for the SDK Shell's topbar, which is ~50px
-   too wide at 320px and ~10px at 360px. Tighten its spacing on narrow phones
-   so Sign in stays on screen. */
 @media (max-width: 379px) {
   div:has(> main.fas-main) > header {
     padding-left: 0.375rem !important;
@@ -295,4 +349,5 @@ main.fas-main {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
   }
+}
 }

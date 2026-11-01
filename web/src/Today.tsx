@@ -41,14 +41,14 @@ export function DateLine({ date }: { date: Date }) {
 
 export function NoLocation({ onOpenSettings }: { onOpenSettings: () => void }) {
   return (
-    <div className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-5">
-      <p className="text-lg font-semibold text-[var(--ink)]">Set your location to see prayer times</p>
-      <p className="mt-1 text-[var(--muted)]">
+    <div className="rounded-fas border border-line bg-panel p-5">
+      <p className="text-lg font-semibold text-ink">Set your location to see prayer times</p>
+      <p className="mt-1 text-muted">
         Use your device's location, pick a city, or enter coordinates. It stays on this device.
       </p>
       <button
         type="button"
-        className="mt-3 rounded-[var(--radius)] bg-[var(--accent-deep)] px-4 py-2 font-semibold text-[var(--paper)]"
+        className="mt-3 rounded-fas bg-accent-deep px-4 py-2 font-semibold text-paper"
         onClick={onOpenSettings}
       >
         Set location
@@ -84,7 +84,7 @@ export default function Today({ location, settings, onOpenSettings, onOpenMonth 
         <TodayTimes days={days} now={now} />
       )}
       {location && (
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-[var(--muted)]">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-muted">
           <p>
             {location.label} · {method?.label}
             <br />
@@ -112,8 +112,8 @@ function TodayTimes({ days, now }: { days: ReturnType<typeof weekPrayers>; now: 
   return (
     <>
       {next && (
-        <div className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-5 text-center">
-          <p className="text-[var(--muted)]">
+        <div className="rounded-fas border border-line bg-panel p-5 text-center">
+          <p className="text-muted">
             {next.name === 'sunrise' ? 'Sunrise' : PRAYER_LABELS[next.name]}{' '}
             <span dir="auto" lang="ar">
               {ARABIC_NAMES[next.name]}
@@ -121,18 +121,18 @@ function TodayTimes({ days, now }: { days: ReturnType<typeof weekPrayers>; now: 
             in
           </p>
           {/* Read out once per change of prayer, not every second. */}
-          <p className="font-[Fraunces] text-5xl font-semibold tabular-nums text-[var(--ink)] sm:text-6xl" aria-hidden="true">
+          <p className="font-[Fraunces] text-5xl font-semibold tabular-nums text-ink sm:text-6xl" aria-hidden="true">
             {formatCountdown(next.time.getTime() - now.getTime())}
           </p>
           <p className="sr-only">
             Next: {PRAYER_LABELS[next.name]} at {formatTime(next.time)}
           </p>
-          <p className="mt-1 text-sm text-[var(--muted)]">
+          <p className="mt-1 text-sm text-muted">
             at <span dir="ltr">{formatTime(next.time)}</span>
           </p>
         </div>
       )}
-      <ol className="mt-4 divide-y divide-[var(--line)] rounded-[var(--radius)] border border-[var(--line)]">
+      <ol className="mt-4 divide-y divide-line rounded-fas border border-line">
         {PRAYER_ORDER.map((name) => {
           const isCurrent = name === current
           return (
@@ -140,15 +140,15 @@ function TodayTimes({ days, now }: { days: ReturnType<typeof weekPrayers>; now: 
               key={name}
               aria-current={isCurrent ? 'true' : undefined}
               className={`flex items-center justify-between gap-4 px-4 py-3 sm:px-5 ${
-                isCurrent ? 'bg-[var(--accent-soft)]/40 font-bold' : ''
-              } ${name === 'sunrise' ? 'text-[var(--muted)]' : 'text-[var(--ink)]'}`}
+                isCurrent ? 'bg-accent-soft/40 font-bold' : ''
+              } ${name === 'sunrise' ? 'text-muted' : 'text-ink'}`}
             >
               <span className="flex items-baseline gap-3">
                 <span className="text-lg sm:text-xl">{PRAYER_LABELS[name]}</span>
-                <span dir="auto" lang="ar" className="text-[var(--muted)]">
+                <span dir="auto" lang="ar" className="text-muted">
                   {ARABIC_NAMES[name]}
                 </span>
-                {isCurrent && <span className="text-sm font-semibold text-[var(--accent-deep)]">Now</span>}
+                {isCurrent && <span className="text-sm font-semibold text-accent-deep">Now</span>}
               </span>
               {/* dir="ltr" keeps "5:33 AM" in order inside a right-to-left page. */}
               <span dir="ltr" className="text-2xl tabular-nums sm:text-3xl">

@@ -56,10 +56,10 @@ export default function QiblaMap({ lat, lon }: Point) {
   const points = near ? [] : greatCirclePoints({ lat, lon })
   const bearing = qiblaBearing(lat, lon)
   return (
-    <section className="mt-5 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4" aria-label="Offline Qibla map">
+    <section className="mt-5 rounded-fas border border-line bg-panel p-4" aria-label="Offline Qibla map">
       <h2 className="text-lg font-semibold">Offline Qibla map</h2>
-      <p className="mt-2 text-sm text-[var(--muted)]">North is up. The map works without compass permission. Your location stays on this device.</p>
-      <svg viewBox="0 0 360 180" role="img" aria-label="North-up world map showing your location and Makkah" className="mt-3 block w-full" style={{ background: 'var(--paper)' }}>
+      <p className="mt-2 text-sm text-muted">North is up. The map works without compass permission. Your location stays on this device.</p>
+      <svg viewBox="0 0 360 180" role="img" aria-label="North-up world map showing your location and Makkah" className="mt-3 block w-full bg-paper">
         <g fill="var(--line-strong)" stroke="var(--muted)" strokeWidth="0.4">{LAND.map((d, i) => <path key={i} d={d} />)}</g>
         <path data-map-route d={mapPath(points)} fill="none" stroke="var(--accent-deep)" strokeWidth="1.5" />
         <circle cx={lon + 180} cy={90 - lat} r="2.5" fill="var(--danger)"><title>Your location</title></circle>
@@ -67,7 +67,7 @@ export default function QiblaMap({ lat, lon }: Point) {
         <text x="8" y="15" fontSize="9" fill="var(--ink)">N ↑</text>
       </svg>
       <p className="mt-2 text-sm">{near ? 'You are near the Kaaba; no route is shown.' : points.length ? `Qibla: ${bearing.toFixed(1)} degrees clockwise from true north (${compassPoint(bearing)}).` : 'At the antipode, there is no unique shortest direction; no route is shown.'}</p>
-      <p className="mt-2 text-sm text-[var(--muted)]">Red dot: your location. Dark dot: Makkah. Line: great-circle path to Makkah city centre. The compass bearing targets the Kaaba. Schematic world outline drawn for PrayerCompass; MIT licence. Not a street map.</p>
+      <p className="mt-2 text-sm text-muted">Red dot: your location. Dark dot: Makkah. Line: great-circle path to Makkah city centre. The compass bearing targets the Kaaba. Schematic world outline drawn for PrayerCompass; MIT licence. Not a street map.</p>
     </section>
   )
 }

@@ -29,21 +29,21 @@ export default function Qibla({ location, onOpenSettings }: Props) {
   return (
     <>
       <PageHeader title="Qibla" description={`Qibla direction from your location · ${location.label}`} />
-      <div className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-5 text-center">
+      <div className="rounded-fas border border-line bg-panel p-5 text-center">
         {distance < 1 ? (
-          <p className="text-lg text-[var(--ink)]">You are at the Kaaba.</p>
+          <p className="text-lg text-ink">You are at the Kaaba.</p>
         ) : (
           <>
             <Compass bearing={compass.reading ? relativeBearing(bearing, compass.reading.heading) : bearing} northRotation={compass.reading ? -compass.reading.heading : 0} label={compass.reading ? "Live Qibla arrow relative to your screen" : `Arrow pointing ${degrees} clockwise from true north, toward ${compassPoint(bearing)}`} />
-            <p className="mt-4 font-[Fraunces] text-5xl font-semibold tabular-nums text-[var(--ink)]">{degrees}</p>
-            <p className="mt-1 text-[var(--muted)]">
+            <p className="mt-4 font-[Fraunces] text-5xl font-semibold tabular-nums text-ink">{degrees}</p>
+            <p className="mt-1 text-muted">
               from true north, clockwise ({compassPoint(bearing)}) · {Math.round(distance).toLocaleString()} km to Makkah
             </p>
           </>
         )}
       </div>
-      {distance >= 1 && <div className="mt-4 text-sm text-[var(--muted)]">
-        <button type="button" onClick={() => void compass.start()} disabled={compass.state === 'requesting'} className="rounded-[var(--radius)] border border-[var(--line-strong)] px-4 py-3 text-[var(--ink)]">
+      {distance >= 1 && <div className="mt-4 text-sm text-muted">
+        <button type="button" onClick={() => void compass.start()} disabled={compass.state === 'requesting'} className="rounded-fas border border-line-strong px-4 py-3 text-ink">
           {compass.state === 'idle' ? 'Enable live compass' : 'Retry live compass'}
         </button>
         <p role="status" className="mt-2">{({
@@ -60,7 +60,7 @@ export default function Qibla({ location, onOpenSettings }: Props) {
         <p className="mt-2">When static, align the top of the diagram with true north using a separate compass. Sensor readings stay in memory and are never saved or sent.</p>
       </div>}
       <QiblaMap lat={location.latitude} lon={location.longitude} />
-      <p className="mt-2 text-sm text-[var(--muted)]">
+      <p className="mt-2 text-sm text-muted">
         The bearing is the shortest path over the globe (great circle) to the Kaaba, calculated on your device.
       </p>
     </>
