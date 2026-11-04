@@ -17,7 +17,7 @@ async function audit(page: Page, label: string) {
 
 for (const theme of ['light', 'dark'] as const) {
   test.describe(theme, () => {
-    test.use({ colorScheme: theme })
+    test.use({ colorScheme: theme, viewport: { width: 390, height: 844 } })
     for (const path of ['/', '/month', '/week', '/qibla', '/settings', '/about']) {
       test(`${path} has no WCAG A/AA violations`, async ({ page }) => {
         await withLocation(page, 41.01, 28.98, 'Istanbul, Türkiye')

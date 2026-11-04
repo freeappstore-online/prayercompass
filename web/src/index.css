@@ -292,8 +292,7 @@ summary:focus-visible,
 
 /* The SDK's Sign in button is white on --accent (3.3:1 light, 2.1:1 dark),
    below WCAG AA for its 14px text. Use the deep accent with paper text instead
-   (white on #9f4427, black on #ffd9cb). Its colours are inline styles, hence
-   !important. */
+   (white on #9f4427, black on #ffd9cb). Override the SDK's utility colours. */
 
 /* App frame: fills the screen exactly. The header stays put, each screen
    scrolls inside .pc-page, and the page itself never scrolls (fas
@@ -308,9 +307,15 @@ summary:focus-visible,
 @layer components{
 :root[data-text='lg'] { font-size: 112.5%; }
 :root[data-text='sm'] { font-size: 87.5%; }
-header button[style*='--accent'] {
+header a.text-accent {
+  color: var(--accent-deep) !important;
+}
+header button.bg-accent {
   background: var(--accent-deep) !important;
   color: var(--paper) !important;
+  min-width: 44px;
+  min-height: 44px;
+  padding-block: 0.4rem !important;
   /* Keep "Sign in" on one line; it wraps at phone widths otherwise. */
   white-space: nowrap;
 }
@@ -345,7 +350,7 @@ main.fas-main {
   div:has(> main.fas-main) > header > div:first-child > span {
     font-size: 0.7rem !important;
   }
-  div:has(> main.fas-main) > header button[style*='--accent'] {
+  div:has(> main.fas-main) > header button.bg-accent {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
   }
