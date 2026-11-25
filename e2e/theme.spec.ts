@@ -2,7 +2,7 @@ import { expect, open, test } from './fixtures'
 import { normalizeColor } from './colors'
 
 // Light and dark themes: the system preference on first load, then the
-// user's choice from the theme button, remembered across reloads.
+// user's choice on the SDK Profile page (header avatar), remembered across reloads.
 
 const theme = (page: import('@playwright/test').Page) =>
   page.evaluate(() => document.documentElement.dataset.theme ?? 'light')
@@ -26,13 +26,16 @@ test.describe('system light', () => {
     expect(await themeColor(page)).toBe(await normalizeColor(page, '#ffffff'))
   })
 
-  test('the theme button switches themes and the choice is remembered', async ({ page }) => {
+  test('the Profile theme choice switches themes and is remembered', async ({ page }) => {
     await open(page)
-    await page.getByRole('button', { name: 'Theme: system' }).click()
-    await expect(page.getByRole('button', { name: 'Theme: light' })).toBeVisible()
+    // SDK 0.17: the theme choice lives on the built-in Profile page.
+    await page.getByRole('banner').getByRole('link', { name: 'Profile', exact: true }).click()
+    const choice = (name: string) => page.getByRole('button', { name, exact: true })
+    await choice('Light').click()
+    await expect(choice('Light')).toHaveAttribute('aria-pressed', 'true')
     expect(await theme(page)).toBe('light')
-    await page.getByRole('button', { name: 'Theme: light' }).click()
-    await expect(page.getByRole('button', { name: 'Theme: dark' })).toBeVisible()
+    await choice('Dark').click()
+    await expect(choice('Dark')).toHaveAttribute('aria-pressed', 'true')
     expect(await theme(page)).toBe('dark')
     await expect.poll(() => themeColor(page)).toBe(await normalizeColor(page, '#000000'))
     // Dark colours really apply.
@@ -41,12 +44,12 @@ test.describe('system light', () => {
 
     await page.reload({ waitUntil: 'networkidle' })
     expect(await theme(page)).toBe('dark')
-    await expect(page.getByRole('button', { name: 'Theme: dark' })).toBeVisible()
+    await expect(choice('Dark')).toHaveAttribute('aria-pressed', 'true')
     expect(await page.evaluate(() => localStorage.getItem('stores-theme'))).toBe('dark')
 
     // Back to following the system.
-    await page.getByRole('button', { name: 'Theme: dark' }).click()
-    await expect(page.getByRole('button', { name: 'Theme: system' })).toBeVisible()
+    await choice('System').click()
+    await expect(choice('System')).toHaveAttribute('aria-pressed', 'true')
     expect(await theme(page)).toBe('light')
   })
 })

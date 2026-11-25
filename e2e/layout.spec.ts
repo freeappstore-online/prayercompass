@@ -24,8 +24,8 @@ for (const viewport of [
         expect(size.width).toBeLessThanOrEqual(viewport.width)
         expect(size.width).toBeLessThanOrEqual(size.clientWidth)
         expect(size.height).toBeLessThanOrEqual(viewport.height)
-        // Sign in stays on screen, on one line.
-        const signIn = page.getByRole('button', { name: 'Sign in' })
+        // The header Profile avatar (sign-in lives behind it in SDK 0.17) stays on screen.
+        const signIn = page.getByRole('banner').getByRole('link', { name: 'Profile', exact: true })
         await expect(signIn).toBeInViewport({ ratio: 1 })
         const box = (await signIn.boundingBox())!
         expect(box.width).toBeGreaterThanOrEqual(44)
